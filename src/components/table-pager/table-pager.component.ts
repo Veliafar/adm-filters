@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 
-import { TablePageEvent, TablePage } from './../models';
+import { TablePageEvent, TablePage } from './../../models';
 import { takeUntil } from 'rxjs/operators';
 
-@Component({
+@Component({s
     selector: 'app-table-pager',
     templateUrl: './table-pager.component.html'
 })

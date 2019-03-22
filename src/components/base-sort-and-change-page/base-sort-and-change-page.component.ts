@@ -1,4 +1,4 @@
-import { TableConfigModel, BaseFilterResult } from './../models';
+import { TableConfigModel, BaseFilterResult } from './../../models';
 
 export abstract class BaseSortAndChangePage<T extends BaseFilterResult, A> {
 
