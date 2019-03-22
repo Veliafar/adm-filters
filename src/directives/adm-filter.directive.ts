@@ -6,4 +6,4 @@ import { SortByDirective } from './sort-by/sort-by.directive';
     declarations: [SortByDirective],
     exports: [SortByDirective]
 })
-export class SortDirectivesModule {}
+export class AdmFilterDirectivesModule {}

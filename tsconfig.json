@@ -12,7 +12,11 @@
         "strictNullChecks": false,
         "baseUrl": "./src",
         "outDir": "./dist",
-        "paths": {},
+        "paths": {
+            "models": ["src/models"],
+            "components": ["src/components"],
+            "directives": ["src/directives"]
+        },
         "lib": [
             "dom",
             "es2017"
