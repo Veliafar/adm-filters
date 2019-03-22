@@ -110,6 +110,7 @@
     "dependencies": {
         "@angular/cli": "^7.3.1",
         "@nguniversal/express-engine": "^7.1.0",
-        "ngx-cookie": "^4.1.2"
+        "ngx-cookie": "^4.1.2",
+        "angular-i18next": "^6.0.0"
     }
 }
