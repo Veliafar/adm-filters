@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { TablePageEvent, TablePage } from './../../models';
 import { takeUntil } from 'rxjs/operators';
 
-@Component({s
+@Component({
     selector: 'app-table-pager',
     templateUrl: './table-pager.component.html'
 })
