@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { I18NextModule } from 'angular-i18next';
 
-import { TablePagerComponent } from './components/table-pager/table-pager.component';
-import { TableHeaderComponent } from './components/table-header/table-header.component';
+import { TablePagerComponent } from './components';
+import { TableHeaderComponent } from './components';
 import { AdmFilterDirectivesModule } from './directives/adm-filter.directive';
 
 @NgModule({
