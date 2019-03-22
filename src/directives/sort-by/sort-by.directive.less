@@ -1,0 +1,31 @@
+th div.sort-by-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+th div.sort-by-text {
+    margin-right: 5px;
+}
+
+th div.sort-by-arrow-position {
+    width: 7px;
+}
+
+th div[sort="asc"].sort-by-arrow-position::after {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    content: "\f176";
+}
+
+th div[sort="desc"].sort-by-arrow-position::after {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    content: "\f175";
+}
