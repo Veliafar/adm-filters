@@ -1,8 +1,8 @@
-import { TableConfigModel, BaseFilterResult } from './../../models';
+import { GridConfigModel, BaseFilterResult } from './../../models';
 
 export abstract class BaseSortAndChangePage<T extends BaseFilterResult, A> {
 
-    tableConfig: TableConfigModel = new TableConfigModel();
+    gridConfig: GridConfigModel = new GridConfigModel();
     data: Array<A> = [];
     // dataWithFilter: T;
 
@@ -15,7 +15,7 @@ export abstract class BaseSortAndChangePage<T extends BaseFilterResult, A> {
         if (!event) { 
             return;
         }
-        this.tableConfig.sortBy = event;
+        this.gridConfig.sortBy = event;
         if (this.data.length) {
             this.getData();
         }
@@ -25,8 +25,8 @@ export abstract class BaseSortAndChangePage<T extends BaseFilterResult, A> {
         if (!event) {
             return;
         }
-        this.tableConfig.pageNumber = event.page;
-        this.tableConfig.pageSize = event.count;
+        this.gridConfig.pageNumber = event.page;
+        this.gridConfig.pageSize = event.count;
         this.getData();
     }
 

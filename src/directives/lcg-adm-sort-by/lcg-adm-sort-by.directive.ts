@@ -1,13 +1,13 @@
 import { Directive, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnInit, Output } from '@angular/core';
 
 @Directive({
-  selector: '[appSortBy]'
+  selector: '[lcgAdmSortBy]'
 })
-export class SortByDirective implements OnInit {
+export class LcgAdmSortByDirective implements OnInit {
   // tslint:disable-next-line:no-input-rename
-  @Input('appSortBy') name: string;
+  @Input('lcgAdmSortBy') name: string;
   // tslint:disable-next-line:no-input-rename
-  @Input('appSortByText') text: string;
+  @Input('lcgAdmSortByText') text: string;
 
   @Output() changeOrder: EventEmitter<string> = new EventEmitter<string>();
 

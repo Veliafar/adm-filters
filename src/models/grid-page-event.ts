@@ -1,4 +1,4 @@
-export class TablePageEvent {
+export class GridPageEvent {
     page: number;
     count: number;
 

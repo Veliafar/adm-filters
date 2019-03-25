@@ -1,4 +1,4 @@
 export { BaseFilterResult } from './base-filter-result';
-export { TableConfigModel } from './table-сonfig';
-export { TablePageEvent } from './table-page-event';
-export { TablePage } from './table-page';
+export { GridConfigModel } from './grid-сonfig';
+export { GridPageEvent } from './grid-page-event';
+export { GridPage } from './grid-page';

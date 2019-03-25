@@ -2,14 +2,14 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 
-import { TablePageEvent, TablePage } from './../../models';
+import { GridPageEvent, GridPage } from '../../models';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-    selector: 'app-table-pager',
-    templateUrl: './table-pager.component.html'
+    selector: 'lcg-adm-grid-pager',
+    templateUrl: './lcg-adm-grid-pager.component.html'
 })
-export class TablePagerComponent implements OnInit, OnDestroy {
+export class LcgAdmGridPagerComponent implements OnInit, OnDestroy {
     rowsCount$: BehaviorSubject<Array<number>>;
     totalPages$: BehaviorSubject<number>;
     paginationMinBlocks$: BehaviorSubject<number>;
@@ -17,10 +17,10 @@ export class TablePagerComponent implements OnInit, OnDestroy {
     currentPage$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
     currentRow$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
     ngUnsubscribe: Subject<void> = new Subject<void>();
-    pages: Array<TablePage> = [];
+    pages: Array<GridPage> = [];
     _total: number;
 
-    @Output() ngChangePage: EventEmitter<TablePageEvent> = new EventEmitter<TablePageEvent>(true);
+    @Output() ngChangePage: EventEmitter<GridPageEvent> = new EventEmitter<GridPageEvent>(true);
     @Output() pageChange: EventEmitter<number> = new EventEmitter<number>(true);
     @Output() rowChange: EventEmitter<number> = new EventEmitter<number>(true);
 
@@ -107,7 +107,7 @@ export class TablePagerComponent implements OnInit, OnDestroy {
             this.currentRow$.next(count);
             this.currentPage$.next(1);
             this.generatePages();
-            this.ngChangePage.emit(new TablePageEvent(
+            this.ngChangePage.emit(new GridPageEvent(
                 this.currentPage$.getValue(),
                 this.currentRow$.getValue()
             ));
@@ -119,7 +119,7 @@ export class TablePagerComponent implements OnInit, OnDestroy {
             this.currentPage$.next(page);
             this.generatePages();
 
-            this.ngChangePage.emit(new TablePageEvent(
+            this.ngChangePage.emit(new GridPageEvent(
                 this.currentPage$.getValue(),
                 this.currentRow$.getValue()
             ));
@@ -138,8 +138,8 @@ export class TablePagerComponent implements OnInit, OnDestroy {
         numPages = totalItems;
         this.pages = [];
         if (numPages > 1) {
-            this.pages.push(new TablePage('<<', Math.max(1, currentPage - 1), currentPage === 1, false));
-            this.pages.push(new TablePage('1', 1, false, currentPage === 1));
+            this.pages.push(new GridPage('<<', Math.max(1, currentPage - 1), currentPage === 1, false));
+            this.pages.push(new GridPage('1', 1, false, currentPage === 1));
 
             maxPivotPages = Math.round((this.paginationMaxBlocks - this.paginationMinBlocks) / 2);
             minPage = Math.max(2, currentPage - maxPivotPages);
@@ -148,15 +148,15 @@ export class TablePagerComponent implements OnInit, OnDestroy {
             let i = minPage;
             while (i <= maxPage) {
                 if ((i === minPage && i !== 2) || (i === maxPage && i !== numPages - 1)) {
-                    this.pages.push(new TablePage('...', i, false, false));
+                    this.pages.push(new GridPage('...', i, false, false));
                 } else {
-                    this.pages.push(new TablePage(i, i, currentPage === i, currentPage === i));
+                    this.pages.push(new GridPage(i, i, currentPage === i, currentPage === i));
                 }
                 i++;
             }
 
-            this.pages.push(new TablePage(numPages, numPages, currentPage === numPages, currentPage === numPages));
-            this.pages.push(new TablePage('>>', Math.min(numPages, currentPage + 1), currentPage === numPages, false));
+            this.pages.push(new GridPage(numPages, numPages, currentPage === numPages, currentPage === numPages));
+            this.pages.push(new GridPage('>>', Math.min(numPages, currentPage + 1), currentPage === numPages, false));
         }
     }
 

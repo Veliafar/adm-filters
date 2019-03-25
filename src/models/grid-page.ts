@@ -1,4 +1,4 @@
-export class TablePage {
+export class GridPage {
     name: string;
     number: number;
     disabled: boolean;

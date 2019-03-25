@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'app-table-header',
-    templateUrl: './table-header.component.html'
+    selector: 'lcg-adm-grid-header',
+    templateUrl: './lcg-adm-grid-header.component.html'
 })
-export class TableHeaderComponent {
+export class LcgAdmGridHeaderComponent {
 
     @Input() total: number;
     @Input() rowCount;
