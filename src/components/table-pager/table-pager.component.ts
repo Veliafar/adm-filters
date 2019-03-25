@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 
-import { TablePageEvent, TablePage } from './../models';
+import { TablePageEvent, TablePage } from './../../models';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -10,13 +10,13 @@ import { takeUntil } from 'rxjs/operators';
     templateUrl: './table-pager.component.html'
 })
 export class TablePagerComponent implements OnInit, OnDestroy {
-    private rowsCount$: BehaviorSubject<Array<number>>;
-    private totalPages$: BehaviorSubject<number>;
-    private paginationMinBlocks$: BehaviorSubject<number>;
-    private paginationMaxBlocks$: BehaviorSubject<number>;
-    private currentPage$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
-    private currentRow$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
+    rowsCount$: BehaviorSubject<Array<number>>;
+    totalPages$: BehaviorSubject<number>;
+    paginationMinBlocks$: BehaviorSubject<number>;
+    paginationMaxBlocks$: BehaviorSubject<number>;
+    currentPage$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
+    currentRow$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
+    ngUnsubscribe: Subject<void> = new Subject<void>();
     pages: Array<TablePage> = [];
     _total: number;
 
@@ -102,7 +102,7 @@ export class TablePagerComponent implements OnInit, OnDestroy {
         this.generatePages();
     }
 
-    private changeRowCount(count: number) {
+    changeRowCount(count: number) {
         if (count !== this.currentRow$.getValue()) {
             this.currentRow$.next(count);
             this.currentPage$.next(1);
@@ -114,7 +114,7 @@ export class TablePagerComponent implements OnInit, OnDestroy {
         }
     }
 
-    private setPage(page: number) {
+    setPage(page: number) {
         if (page !== this.currentPage$.getValue()) {
             this.currentPage$.next(page);
             this.generatePages();
@@ -126,7 +126,7 @@ export class TablePagerComponent implements OnInit, OnDestroy {
         }
     }
 
-    private generatePages() {
+    generatePages() {
         const currentPage = this.currentPage$.getValue();
         const pageSize = this.currentRow$.getValue();
         const totalItems = this.totalPages$.getValue();
