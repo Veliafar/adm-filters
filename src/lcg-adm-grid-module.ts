@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { I18NextModule } from 'angular-i18next';
+import * as $ from 'jquery';
 
 import { LcgAdmGridPagerComponent } from './components/table-pager/lcg-adm-grid-pager.component';
 import { LcgAdmGridHeaderComponent } from './components/table-header/lcg-adm-grid-header.component';

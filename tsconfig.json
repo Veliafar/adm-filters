@@ -10,9 +10,18 @@
         "declaration": true,
         "noEmitHelpers": true,
         "strictNullChecks": false,
-        "baseUrl": "./src",
+        "baseUrl": "./",
         "outDir": "./dist",
-        "paths": {},
+        "paths": {
+            "services": [ "src/services" ],
+            "resolvers": [ "src/resolvers"],
+            "directives": [ "src/directives"],
+            "codegen": [ "codegen/lib/models" ],
+            "enums": ["src/models/enums"],
+            "models": ["src/models"],
+            "providers": ["src/providers"],
+            "components": ["src/components"]
+        },
         "lib": [
             "dom",
             "es2017"
