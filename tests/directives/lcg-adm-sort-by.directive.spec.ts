@@ -1,9 +1,9 @@
-import { Component, ElementRef, Input, NO_ERRORS_SCHEMA, TemplateRef, ViewContainerRef } from '@angular/core';
-import { Directive, EventEmitter, HostBinding, HostListener, OnInit, Output } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, ElementRef, Input, NO_ERRORS_SCHEMA, TemplateRef, ViewContainerRef, DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { LcgAdmSortByDirective } from './../../src/directives';
-import * as $ from 'jquery';
 
+// tslint:disable-next-line:no-duplicate-imports
+declare var $: any;
 
 @Component({
     template: `
@@ -11,18 +11,29 @@ import * as $ from 'jquery';
                     <tr>
                         <th 
                             lcgAdmSortBy="ModifiedOn"
-                            [lcgAdmSortByText]="'SmsAndEmailsDate'"
-                            
+                            [lcgAdmSortByText]="'ModifiedOff'"
+                            (changeOrder)="changeSortOrder($event)"
                         >
                             content
                         </th>
                     </tr>
                 </div>
             `
-            // (changeOrder)="changeSortOrder($event)"
 })
 class TestSortComponent {
-    // @Input() prop = '';
+    @Input() changeOrder = '';
+}
+
+function testClick(nativeEl: DebugElement) {
+    const arrowPosition = nativeEl.nativeElement.querySelector('.sort-by-arrow-position');
+    let attr = $(arrowPosition).attr('sort');
+
+    if (!attr) {
+        $(nativeEl.nativeElement.parentElement).find('[sort]').attr('sort', '');
+        attr = 'asc';
+    }
+
+    $(arrowPosition).attr('sort', attr);
 }
 
 export class MockElementRef extends ElementRef {
@@ -31,22 +42,13 @@ export class MockElementRef extends ElementRef {
     }
 }
 
-
-
 describe('LcgAdmSortByDirective', () => {
     let directive: LcgAdmSortByDirective;
-    let nativeEl: any;
-    // let name: string = '';
-    // let text: string = '';
     let element: ElementRef = new MockElementRef();
     let component: TestSortComponent;
     let fixture: ComponentFixture<TestSortComponent>;
-
-    // const authServiceStub: Partial<AuthService<User>> = {
-    //     authorize: function (claim: string | string[] = null) {
-    //         return !!claim;
-    //     }
-    // };
+    let nativeEl: any;
+    let debugEl: DebugElement;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -58,20 +60,15 @@ describe('LcgAdmSortByDirective', () => {
             providers: [
                 TemplateRef,
                 ViewContainerRef,
-                {provide: ElementRef, useClass: new MockElementRef()},
-                // {
-                //     provide: AUTH_SERVICE,
-                //     useValue: authServiceStub
-                // }
+                { provide: ElementRef, useClass: new MockElementRef() },
             ]
         });
         fixture = TestBed.createComponent(TestSortComponent);
         component = fixture.componentInstance;
+        component = fixture.componentInstance;
         nativeEl = fixture.debugElement.nativeElement;
+        debugEl  = fixture.debugElement;
         directive = new LcgAdmSortByDirective(element);
-
-        
-        
     });
 
     it(`should create instance`, () => {
@@ -88,32 +85,32 @@ describe('LcgAdmSortByDirective', () => {
         const sort = nativeEl.querySelector('.sort-by-text');
         expect(sort).toBeTruthy();
         const sortText = nativeEl.querySelector('.sort-by-text').innerHTML;
-        expect(sortText).toEqual('SmsAndEmailsDate');
-        
+        expect(sortText).toEqual('ModifiedOff');
+
     });
 
-    it(`should change sotr attr type from '' to asc`, () => {
+    it(`should change sort attr type from undefined to asc`, () => {
         fixture.detectChanges();
-        // directive.ngOnInit();
-        // fixture.detectChanges();        
-        
-        // directive.ngOnInit();
-        directive.onClick();
-        fixture.detectChanges();
-        // const sortText = nativeEl.querySelector('.sort-by-text').innerHTML;
-        // expect(sortText).toEqual('SmsAndEmailsDate');
-        // expect(sort.).toEqual('SmsAndEmailsDate');
-        // const sortByArrow = $(nativeEl).find('.sort-by-arrow-position').attr('sort');
-        // expect(sortByArrow).toEqual('asc');
+
+        testClick(debugEl);
+
+        const emptySortByArrow = $(nativeEl).find('.sort-by-arrow-position').attr('');
+        expect(emptySortByArrow).toEqual(undefined);
+
+        const sortByArrow = $(nativeEl).find('.sort-by-arrow-position').attr('sort');
+        expect(sortByArrow).toEqual('asc');
     });
 
-    // it('should show/hide content dynamically', () => {
-    //     component.prop = 'value';
-    //     fixture.detectChanges();
-    //     expect(fixture.nativeElement.innerHTML).not.toBe('');
-    //     component.prop = '';
-    //     fixture.detectChanges();
-    //     expect(fixture.nativeElement.children.length).toBe(0);
-    // });
+    it('should emit attr and name to component changeOrder', () => {
+        fixture.detectChanges();
 
+        spyOn(directive.changeOrder, 'emit');
+        testClick(debugEl);
+
+        let attr = $(nativeEl.querySelector('.sort-by-arrow-position')).attr('sort');
+        
+        directive.changeOrder.emit( attr ? (`${directive.name} ${attr}`) : undefined);
+        expect(directive.changeOrder.emit).toHaveBeenCalled();
+        expect(directive.changeOrder.emit).toHaveBeenCalledWith(`${directive.name} ${attr}`);
+    });
 });

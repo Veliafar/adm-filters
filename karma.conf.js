@@ -17,7 +17,8 @@ module.exports = function (config) {
             }
         },
         files: [
-            'karma.entry.js'
+            'karma.entry.js',
+            { pattern: './node_modules/jquery/dist/jquery.min.js', watched: false }
         ],
         frameworks: ['jasmine'],
         preprocessors: {

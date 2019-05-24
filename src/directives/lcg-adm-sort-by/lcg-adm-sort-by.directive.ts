@@ -1,5 +1,8 @@
 import { Directive, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnInit, Output, Renderer2 } from '@angular/core';
-import * as $ from 'jquery';
+
+// tslint:disable-next-line:no-duplicate-imports
+// import * as $ from 'jquery';
+
 
 @Directive({
   selector: '[lcgAdmSortBy]'
