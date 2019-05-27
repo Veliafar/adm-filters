@@ -1,7 +1,9 @@
+var $ = require('jquery');
 var webpack = require('webpack');
 var path = require('path');
 module.exports = function (config) {
     config.set({
+        basePath: '',
         browsers: ['Chrome'],
         colors: true,
         coverageReporter: {
@@ -41,7 +43,7 @@ module.exports = function (config) {
                         test: /.*(?!\.d\.ts)|(\.ts)$/,
                         options: {
                             compilerOptions: {
-                                noEmitHelpers: true
+                                noEmitHelpers: false
                             }
                         }
                     },

@@ -1,12 +1,9 @@
-import { Component, ElementRef, Input, NO_ERRORS_SCHEMA, TemplateRef, ViewContainerRef, DebugElement, OnInit } from '@angular/core';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { Component, ElementRef, NO_ERRORS_SCHEMA, TemplateRef, ViewContainerRef, DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LcgAdmSortByDirective } from './../../src/directives';
 import { BaseSortAndChangePage } from './../../src/components';
-import { BaseFilterResult } from './../../src/models';
-
-
-// tslint:disable-next-line:no-duplicate-imports
-declare var $: any;
+import { BaseFilterResult, GridConfigModel, GridPageEvent } from './../../src/models';
+import { CustomGridPage } from './../models';
 
 @Component({
     template: `
@@ -23,26 +20,20 @@ declare var $: any;
                 </div>
             `
 })
-class TestSortComponent extends BaseSortAndChangePage<BaseFilterResult, []>{
+class TestSortComponent extends BaseSortAndChangePage<BaseFilterResult, CustomGridPage>{
+    data: CustomGridPage[] = new Array<CustomGridPage>();
+    gridConfig: GridConfigModel = new GridConfigModel();
+    dataUnit: CustomGridPage = new CustomGridPage('1', 1, false, true);
+
     constructor() {
         super();
     }
 
     protected getData() {
-        console.log(this.gridConfig);
+        this.data = this.data.slice(1, 1);
+        this.dataUnit.custom_claim = '2';
+        this.data.push(this.dataUnit);
     }
-}
-
-function testClick(nativeEl: DebugElement) {
-    const arrowPosition = nativeEl.nativeElement.querySelector('.sort-by-arrow-position');
-    let attr = $(arrowPosition).attr('sort');
-
-    if (!attr) {
-        $(nativeEl.nativeElement.parentElement).find('[sort]').attr('sort', '');
-        attr = 'asc';
-    }
-
-    $(arrowPosition).attr('sort', attr);
 }
 
 export class MockElementRef extends ElementRef {
@@ -52,12 +43,15 @@ export class MockElementRef extends ElementRef {
 }
 
 describe('BaseSortAndChangePage', () => {
+
     let directive: LcgAdmSortByDirective;
     let element: ElementRef = new MockElementRef();
     let component: TestSortComponent;
     let fixture: ComponentFixture<TestSortComponent>;
     let nativeEl: any;
     let debugEl: DebugElement;
+    let mockSortBy: string;
+
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -74,10 +68,12 @@ describe('BaseSortAndChangePage', () => {
         });
         fixture = TestBed.createComponent(TestSortComponent);
         component = fixture.componentInstance;
-        component = fixture.componentInstance;
         nativeEl = fixture.debugElement.nativeElement;
         debugEl = fixture.debugElement;
         directive = new LcgAdmSortByDirective(element);
+
+        component.dataUnit.custom_claim = '1';
+        component.data.push(component.dataUnit);
     });
 
     it(`should create instance`, () => {
@@ -90,94 +86,26 @@ describe('BaseSortAndChangePage', () => {
         expect(fixture.nativeElement.children.length).not.toBe(0);
     });
 
-    // it('should directive content initially', () => {
-    //     fixture.detectChanges();
-    //     const sort = nativeEl.querySelector('.sort-by-text');
-    //     expect(sort).toBeTruthy();
-    //     const sortText = nativeEl.querySelector('.sort-by-text').innerHTML;
-    //     expect(sortText).toEqual('ModifiedOff');
+    it('should run changeOrder', () => {
 
-    // });
+        directive.name = 'ModifiedOn';
+        mockSortBy = `${directive.name} asc`;
 
-    // it(`should change sort attr type from undefined to asc`, () => {
-    //     fixture.detectChanges();
+        component.changeSortOrder(mockSortBy);
+        expect(component.gridConfig.sortBy).toEqual(mockSortBy);
+        // check getData work in changeSortOrder method
+        expect(component.data[0].custom_claim).toEqual('2');
+    });
 
-    //     testClick(debugEl);
+    it('should run changePage', () => {
 
-    //     // const arrowPosition = nativeEl.querySelector('.sort-by-arrow-position');
-    //     // let attr = $(arrowPosition).attr('sort');
+        const mockGridConfig: GridPageEvent = new GridPageEvent(1, 100);
+        mockGridConfig.page = 2, mockGridConfig.count = 200;
 
-    //     // if (!attr) {
-    //     //     $(nativeEl.parentElement).find('[sort]').attr('sort', '');
-    //     //     attr = 'asc';
-    //     // }
-
-    //     // $(arrowPosition).attr('sort', attr);
-
-    //     const emptySortByArrow = $(nativeEl).find('.sort-by-arrow-position').attr('');
-    //     expect(emptySortByArrow).toEqual(undefined);
-
-    //     const sortByArrow = $(nativeEl).find('.sort-by-arrow-position').attr('sort');
-    //     expect(sortByArrow).toEqual('asc');
-    // });
-
-    // it('should emit attr and name to component changeOrder', () => {
-    //     fixture.detectChanges();
-
-    //     spyOn(directive.changeOrder, 'emit');
-
-    //     testClick(debugEl);
-
-    //     // const arrowPosition = nativeEl.querySelector('.sort-by-arrow-position');
-    //     // let attr = $(arrowPosition).attr('sort');
-
-    //     // if (!attr) {
-    //     //     $(nativeEl.parentElement).find('[sort]').attr('sort', '');
-    //     //     attr = 'asc';
-    //     // }
-    //     // $(arrowPosition).attr('sort', attr);
-
-    //     let attr = $(nativeEl.querySelector('.sort-by-arrow-position')).attr('sort');
-
-
-    //     directive.changeOrder.emit(attr ? (`${directive.name} ${attr}`) : undefined);
-    //     expect(directive.changeOrder.emit).toHaveBeenCalled();
-    //     expect(directive.changeOrder.emit).toHaveBeenCalledWith(`${directive.name} ${attr}`);
-    // });
+        component.changePage(mockGridConfig);
+        expect(component.gridConfig.pageNumber).toEqual(mockGridConfig.page);
+        // check getData work in changePage method
+        expect(component.data[0].custom_claim).toEqual('2');
+    });
 });
 
-
-// // import { GridConfigModel, BaseFilterResult } from './../../models';
-
-// // export abstract class BaseSortAndChangePage<T extends BaseFilterResult, A> {
-
-// //     gridConfig: GridConfigModel = new GridConfigModel();
-// //     data: Array<A> = [];
-// //     // dataWithFilter: T;
-
-// //     constructor(
-// //     ) {}
-
-// //     protected abstract getData();
-
-// //     public changeSortOrder(event) {
-// //         if (!event) { 
-// //             return;
-// //         }
-// //         this.gridConfig.sortBy = event;
-// //         if (this.data.length) {
-// //             this.getData();
-// //         }
-// //     }
-
-// //     public changePage(event) {
-// //         if (!event) {
-// //             return;
-// //         }
-// //         this.gridConfig.pageNumber = event.page;
-// //         this.gridConfig.pageSize = event.count;
-// //         this.getData();
-// //     }
-
-
-// // }

@@ -1,3 +1,4 @@
+var $ = require('jquery');
 var webpack = require('webpack');
 var path = require('path');
 module.exports = function (config) {
@@ -5,7 +6,8 @@ module.exports = function (config) {
         browsers: ['Chrome'],
         colors: true,
         files: [
-            'karma.entry.js'
+            'karma.entry.js',
+            { pattern: './node_modules/jquery/dist/jquery.min.js', watched: false }
         ],
         frameworks: ['jasmine'],
         preprocessors: {
@@ -26,7 +28,7 @@ module.exports = function (config) {
                         test: /\.ts$/,
                         options: {
                             compilerOptions: {
-                                noEmitHelpers: true
+                                noEmitHelpers: false
                             }
                         }
                     }

@@ -28,7 +28,5 @@ export abstract class BaseSortAndChangePage<T extends BaseFilterResult, A> {
         this.gridConfig.pageNumber = event.page;
         this.gridConfig.pageSize = event.count;
         this.getData();
-    }
-
-    
+    }    
 }

@@ -1,9 +1,6 @@
 import { Component, ElementRef, Input, NO_ERRORS_SCHEMA, TemplateRef, ViewContainerRef, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LcgAdmSortByDirective } from './../../src/directives';
-
-// tslint:disable-next-line:no-duplicate-imports
-declare var $: any;
 
 @Component({
     template: `
@@ -22,20 +19,8 @@ declare var $: any;
 })
 class TestSortComponent {
     @Input() changeOrder = '';
+    
 }
-
-function testClick(nativeEl: DebugElement) {
-    const arrowPosition = nativeEl.nativeElement.querySelector('.sort-by-arrow-position');
-    let attr = $(arrowPosition).attr('sort');
-
-    if (!attr) {
-        $(nativeEl.nativeElement.parentElement).find('[sort]').attr('sort', '');
-        attr = 'asc';
-    }
-
-    $(arrowPosition).attr('sort', attr);
-}
-
 export class MockElementRef extends ElementRef {
     constructor() {
         super(null);
@@ -49,6 +34,18 @@ describe('LcgAdmSortByDirective', () => {
     let fixture: ComponentFixture<TestSortComponent>;
     let nativeEl: any;
     let debugEl: DebugElement;
+    let arrowPosition: any;
+    let attr: any;
+    
+    function testClick() {
+        arrowPosition = nativeEl.querySelector('.sort-by-arrow-position');
+        attr = $(arrowPosition).attr('sort');
+        if (!attr) {
+            $(nativeEl.parentElement).find('[sort]').attr('sort', '');
+            attr = 'asc';
+        }
+        $(arrowPosition).attr('sort', attr);
+    }
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -64,7 +61,6 @@ describe('LcgAdmSortByDirective', () => {
             ]
         });
         fixture = TestBed.createComponent(TestSortComponent);
-        component = fixture.componentInstance;
         component = fixture.componentInstance;
         nativeEl = fixture.debugElement.nativeElement;
         debugEl  = fixture.debugElement;
@@ -92,7 +88,7 @@ describe('LcgAdmSortByDirective', () => {
     it(`should change sort attr type from undefined to asc`, () => {
         fixture.detectChanges();
 
-        testClick(debugEl);
+        testClick();
 
         const emptySortByArrow = $(nativeEl).find('.sort-by-arrow-position').attr('');
         expect(emptySortByArrow).toEqual(undefined);
@@ -105,11 +101,10 @@ describe('LcgAdmSortByDirective', () => {
         fixture.detectChanges();
 
         spyOn(directive.changeOrder, 'emit');
-        testClick(debugEl);
 
-        let attr = $(nativeEl.querySelector('.sort-by-arrow-position')).attr('sort');
+        testClick();
         
-        directive.changeOrder.emit( attr ? (`${directive.name} ${attr}`) : undefined);
+        directive.changeOrder.emit(attr ? (`${directive.name} ${attr}`) : undefined);
         expect(directive.changeOrder.emit).toHaveBeenCalled();
         expect(directive.changeOrder.emit).toHaveBeenCalledWith(`${directive.name} ${attr}`);
     });

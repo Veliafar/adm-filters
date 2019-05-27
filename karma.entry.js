@@ -8,6 +8,7 @@ require('zone.js/dist/jasmine-patch');
 require('zone.js/dist/async-test');
 require('zone.js/dist/fake-async-test');
 require('ts-helpers');
+require('karma-jasmine-html-reporter');
 
 // Prevent Karma from running prematurely.
 __karma__.loaded = function () { return; };
