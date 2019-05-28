@@ -9,7 +9,7 @@ import { LcgAdmSortByDirective } from './directives/lcg-adm-sort-by/lcg-adm-sort
 
 @NgModule({
   declarations: [LcgAdmGridPagerComponent, LcgAdmGridHeaderComponent, LcgAdmSortByDirective],
-  imports     : [CommonModule, I18NextModule],
+  imports     : [CommonModule, I18NextModule.forRoot()],
   exports     : [LcgAdmGridPagerComponent, LcgAdmGridHeaderComponent],
 })
 

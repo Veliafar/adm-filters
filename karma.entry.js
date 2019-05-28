@@ -9,9 +9,12 @@ require('zone.js/dist/async-test');
 require('zone.js/dist/fake-async-test');
 require('ts-helpers');
 require('karma-jasmine-html-reporter');
+require('jquery');
+require('i18next');
+require('angular-i18next');
 
-// Prevent Karma from running prematurely.
-__karma__.loaded = function () { return; };
+    // Prevent Karma from running prematurely.
+    __karma__.loaded = function () { return; };
 Promise.all([
     require('@angular/core/testing'),
     require('@angular/platform-browser-dynamic/testing')
@@ -22,8 +25,8 @@ Promise.all([
         testing
             .getTestBed()
             .initTestEnvironment(
-            testingBrowser.BrowserDynamicTestingModule,
-            testingBrowser.platformBrowserDynamicTesting());
+                testingBrowser.BrowserDynamicTestingModule,
+                testingBrowser.platformBrowserDynamicTesting());
     })
     .then(function () { return require.context('./tests/', true, /\.ts/); })
     .then(function (context) { return context.keys().map(context); })

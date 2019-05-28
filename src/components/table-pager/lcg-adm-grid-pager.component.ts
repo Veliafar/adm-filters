@@ -7,7 +7,24 @@ import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'lcg-adm-grid-pager',
-    templateUrl: './lcg-adm-grid-pager.component.html'
+    template: `
+                <div class="col-xs-12">
+                <div class="pull-left">
+                    <ul class="pagination">
+                        <li *ngFor="let count of rowsCount" [ngClass]="{'active': count === currentRow$.getValue()}" (click)="changeRowCount(count)">
+                            <a href="javascript:void(0)"> {{ count }}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="pull-right">
+                        <ul class="pagination">
+                            <li *ngFor="let page of pages" [ngClass]="{'active': page.active, 'disabled': page.disabled}" (click)="page.disabled || setPage(page.number)">
+                                <a href="javascript:void(0)"> {{ page.name }} </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            `
 })
 export class LcgAdmGridPagerComponent implements OnInit, OnDestroy {
     rowsCount$: BehaviorSubject<Array<number>>;

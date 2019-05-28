@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, NO_ERRORS_SCHEMA, TemplateRef, ViewContainerRef, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LcgAdmSortByDirective } from './../../src/directives';
+import * as jq1 from 'jquery';
 
 @Component({
     template: `
@@ -27,7 +28,7 @@ export class MockElementRef extends ElementRef {
     }
 }
 
-describe('LcgAdmSortByDirective', () => {
+describe('SortByDirective', () => {
     let directive: LcgAdmSortByDirective;
     let element: ElementRef = new MockElementRef();
     let component: TestSortComponent;
@@ -39,12 +40,12 @@ describe('LcgAdmSortByDirective', () => {
     
     function testClick() {
         arrowPosition = nativeEl.querySelector('.sort-by-arrow-position');
-        attr = $(arrowPosition).attr('sort');
+        attr = jq1(arrowPosition).attr('sort');
         if (!attr) {
-            $(nativeEl.parentElement).find('[sort]').attr('sort', '');
+            jq1(nativeEl.parentElement).find('[sort]').attr('sort', '');
             attr = 'asc';
         }
-        $(arrowPosition).attr('sort', attr);
+        jq1(arrowPosition).attr('sort', attr);
     }
 
     beforeEach(() => {
@@ -90,10 +91,10 @@ describe('LcgAdmSortByDirective', () => {
 
         testClick();
 
-        const emptySortByArrow = $(nativeEl).find('.sort-by-arrow-position').attr('');
+        const emptySortByArrow = jq1(nativeEl).find('.sort-by-arrow-position').attr('');
         expect(emptySortByArrow).toEqual(undefined);
 
-        const sortByArrow = $(nativeEl).find('.sort-by-arrow-position').attr('sort');
+        const sortByArrow = jq1(nativeEl).find('.sort-by-arrow-position').attr('sort');
         expect(sortByArrow).toEqual('asc');
     });
 

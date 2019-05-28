@@ -8,7 +8,9 @@
         "whitelistedNonPeerDependencies": [
             "@nguniversal/express-engine",
             "ngx-cookie",
-            "@angular/cli"
+            "@angular/cli",
+            "i18next",
+            "moment"
         ]
     },
     "homepage": "https://github.com/Veliafar/adm-filters.git#readme",
@@ -111,11 +113,15 @@
         "typescript": ">=2.7.2",
         "webpack": "4.19.1",
         "zone.js": "^0.8.26",
-        "karma-jasmine-html-reporter": "^0.2.2"
+        "karma-jasmine-html-reporter": "^0.2.2",
+        "karma-coverage-istanbul-reporter": "~2.0.1",
+        "@angular-devkit/build-angular": "~0.8.0",
+        "@angular-devkit/build-ng-packagr": "~0.8.0"
     },
     "dependencies": {
         "@angular/cli": "^7.3.1",
         "@nguniversal/express-engine": "^7.1.0",
-        "ngx-cookie": "^4.1.2"
+        "i18next": "^15.1.0",
+        "moment": "^2.24.0"
     }
 }
