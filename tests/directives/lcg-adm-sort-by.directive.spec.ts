@@ -1,7 +1,9 @@
 import { Component, ElementRef, Input, NO_ERRORS_SCHEMA, TemplateRef, ViewContainerRef, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LcgAdmSortByDirective } from './../../src/directives';
-import * as jq1 from 'jquery';
+
+import * as _$ from 'jquery';
+const $ = (_$ as any).default || _$;
 
 @Component({
     template: `
@@ -30,23 +32,10 @@ export class MockElementRef extends ElementRef {
 
 describe('SortByDirective', () => {
     let directive: LcgAdmSortByDirective;
-    let element: ElementRef = new MockElementRef();
     let component: TestSortComponent;
     let fixture: ComponentFixture<TestSortComponent>;
     let nativeEl: any;
     let debugEl: DebugElement;
-    let arrowPosition: any;
-    let attr: any;
-    
-    function testClick() {
-        arrowPosition = nativeEl.querySelector('.sort-by-arrow-position');
-        attr = jq1(arrowPosition).attr('sort');
-        if (!attr) {
-            jq1(nativeEl.parentElement).find('[sort]').attr('sort', '');
-            attr = 'asc';
-        }
-        jq1(arrowPosition).attr('sort', attr);
-    }
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -57,28 +46,27 @@ describe('SortByDirective', () => {
             schemas: [NO_ERRORS_SCHEMA],
             providers: [
                 TemplateRef,
-                ViewContainerRef,
-                { provide: ElementRef, useClass: new MockElementRef() },
+                ViewContainerRef
             ]
         });
         fixture = TestBed.createComponent(TestSortComponent);
         component = fixture.componentInstance;
         nativeEl = fixture.debugElement.nativeElement;
         debugEl  = fixture.debugElement;
-        directive = new LcgAdmSortByDirective(element);
+        directive = new LcgAdmSortByDirective(fixture.debugElement);
+
+        fixture.detectChanges();
     });
 
     it(`should create instance`, () => {
         expect(directive).toBeTruthy();
     });
 
-    it('should show content initially', () => {
-        fixture.detectChanges();
+    it('should show content initially', () => {        
         expect(fixture.nativeElement.children.length).not.toBe(0);
     });
 
-    it('should directive content initially', () => {
-        fixture.detectChanges();
+    it('should directive content initially', () => {        
         const sort = nativeEl.querySelector('.sort-by-text');
         expect(sort).toBeTruthy();
         const sortText = nativeEl.querySelector('.sort-by-text').innerHTML;
@@ -87,26 +75,29 @@ describe('SortByDirective', () => {
     });
 
     it(`should change sort attr type from undefined to asc`, () => {
-        fixture.detectChanges();
+        
 
-        testClick();
+        directive.onClick();
+        fixture.detectChanges();    
 
-        const emptySortByArrow = jq1(nativeEl).find('.sort-by-arrow-position').attr('');
+        const emptySortByArrow = $(nativeEl).find('.sort-by-arrow-position').attr('');
         expect(emptySortByArrow).toEqual(undefined);
 
-        const sortByArrow = jq1(nativeEl).find('.sort-by-arrow-position').attr('sort');
+        const sortByArrow = $(nativeEl).find('.sort-by-arrow-position').attr('sort');
         expect(sortByArrow).toEqual('asc');
     });
 
-    it('should emit attr and name to component changeOrder', () => {
-        fixture.detectChanges();
+    it(`should emit 'ModifiedOn asc' and name to component changeOrder`, async() => {        
 
         spyOn(directive.changeOrder, 'emit');
 
-        testClick();
-        
-        directive.changeOrder.emit(attr ? (`${directive.name} ${attr}`) : undefined);
-        expect(directive.changeOrder.emit).toHaveBeenCalled();
-        expect(directive.changeOrder.emit).toHaveBeenCalledWith(`${directive.name} ${attr}`);
+        directive.name = 'ModifiedOn';
+
+        directive.onClick();
+        fixture.detectChanges();
+        fixture.whenStable().then( () => {
+            expect(directive.changeOrder.emit).toHaveBeenCalled();
+            expect(directive.changeOrder.emit).toHaveBeenCalledWith(`ModifiedOn asc`);
+        });        
     });
 });

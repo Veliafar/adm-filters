@@ -1,4 +1,3 @@
-var $ = require('jquery');
 var webpack = require('webpack');
 var path = require('path');
 module.exports = function (config) {
@@ -42,7 +41,7 @@ module.exports = function (config) {
                         test: /.*(?!\.d\.ts)|(\.ts)$/,
                         options: {
                             compilerOptions: {
-                                noEmitHelpers: true
+                                noEmitHelpers: false
                             }
                         }
                     },

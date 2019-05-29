@@ -89,66 +89,51 @@ describe('GridPagerComponent', () => {
         fixture = TestBed.createComponent(TestSortComponent);
         component = fixture.componentInstance;
         nativeEl = fixture.debugElement.nativeElement;
-        debugEl = fixture.debugElement;
-
-        
+        debugEl = fixture.debugElement;        
 
         fixture.detectChanges();
         pagerFixture.detectChanges();
+
+        spyOn(pagerComponent.currentRow$, 'next');
+        spyOn(pagerComponent.rowsCount$, 'next');
+        spyOn(pagerComponent.currentPage$, 'next');
+
+
+        pagerComponent.page = 2;                
+        pagerComponent._total = 100;
+        pagerComponent.rowsCount = [100, 200, 300, 400, 500];
+        pagerComponent.row = 100;
     });
 
     it(`should create instance`, () => {
         expect(pagerComponent).toBeTruthy();
     });
 
-    it(`should test onInit`, () => {
-                        
-        pagerComponent._total = 1;
+    it(`should test onInit and generatePages`, () => {                        
+
         pagerComponent.ngOnInit();
-
         pagerFixture.detectChanges();
 
-        // console.log(pagerComponent._total);
-        // console.log(pagerComponent.pages);
+        expect(pagerComponent.pages.length).toBeTruthy();        
     });
 
-    it(`should test changeRowCount`, () => {
-                        
-        pagerComponent._total = 100;
-        pagerComponent.generatePages();
-
-        pagerFixture.detectChanges();
-
-
-        console.log(pagerComponent.pages);
-    });
-
-    // it(`should check binding data`, () => {
-    //     component.total = 1;
-    //     fixture.detectChanges();
-    //     expect(nativeEl.querySelector('tr')).toBeTruthy();
-    // });
-
-    // it(`say minShowItem work & should return 42`, () => {        
-    //     pagerComponent.page = 2;
-    //     pagerComponent.rowCount = 200;
-
-    //     pagerFixture.detectChanges();
-
-    //     let result: number = pagerComponent.minShowItem;
-    //     result = result - 159;
-    //     expect(result).toEqual(42);
-    // });
-
-    // it(`say maxShowItem work & should return 42`, () => {
-    //     pagerComponent.total = 1;
-    //     pagerComponent.page = 2;
-    //     pagerComponent.rowCount = 200;
-
-    //     pagerFixture.detectChanges();
+    it(`should test changeRowCount method`, () => {        
         
-    //     let result: number = pagerComponent.maxShowItem;
-    //     result = result + 41;
-    //     expect(result).toEqual(42);
-    // });
+        spyOn(pagerComponent.ngChangePage, 'emit');
+
+        pagerComponent.changeRowCount(5);
+        pagerFixture.detectChanges();
+
+        expect(pagerComponent.ngChangePage.emit).toHaveBeenCalled();
+    });
+
+    it(`should test setPage method`, () => {        
+        
+        spyOn(pagerComponent.ngChangePage, 'emit');
+
+        pagerComponent.setPage(5);
+        pagerFixture.detectChanges();
+
+        expect(pagerComponent.ngChangePage.emit).toHaveBeenCalled();
+    });
 });

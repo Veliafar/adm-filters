@@ -1,7 +1,7 @@
 import { Directive, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnInit, Output, Renderer2 } from '@angular/core';
 
-// tslint:disable-next-line:no-duplicate-imports
-// import $ from 'jquery';
+import * as _$ from 'jquery';
+const $ = (_$ as any).default || _$;
 
 
 @Directive({

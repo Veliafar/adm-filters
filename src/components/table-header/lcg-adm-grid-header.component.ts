@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'lcg-adm-grid-header',
-    // templateUrl: './lcg-adm-grid-header.component.html',
     template: `
                     <div class="row">
                         <div class="col-xs-4 col-xs-offset-4" *ngIf="total">      
@@ -11,9 +10,7 @@ import { Component, Input } from '@angular/core';
                             </p>                  
                         </div>
                     </div>
-                `
-    // styleUrls: ['./lcg-adm-grid-header.component.css']
-    
+                `    
 })
 export class LcgAdmGridHeaderComponent {
 

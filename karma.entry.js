@@ -9,15 +9,14 @@ require('zone.js/dist/async-test');
 require('zone.js/dist/fake-async-test');
 require('ts-helpers');
 require('karma-jasmine-html-reporter');
-require('jquery');
-require('i18next');
 require('angular-i18next');
+require('i18next');
 
     // Prevent Karma from running prematurely.
     __karma__.loaded = function () { return; };
 Promise.all([
     require('@angular/core/testing'),
-    require('@angular/platform-browser-dynamic/testing')
+    require('@angular/platform-browser-dynamic/testing'),
 ])
     .then(function (a) {
         var testing = a[0];

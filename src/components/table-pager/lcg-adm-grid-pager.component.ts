@@ -171,7 +171,6 @@ export class LcgAdmGridPagerComponent implements OnInit, OnDestroy {
                 }
                 i++;
             }
-
             this.pages.push(new GridPage(numPages, numPages, currentPage === numPages, currentPage === numPages));
             this.pages.push(new GridPage('>>', Math.min(numPages, currentPage + 1), currentPage === numPages, false));
         }
